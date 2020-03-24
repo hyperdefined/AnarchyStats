@@ -1,4 +1,4 @@
-# QuickStats
+# AnarchyStats
 A Spigot plugin to get total players and world size.
 
 View more information on the [plugin page](https://www.spigotmc.org/resources/quickstats.66089/).
@@ -6,5 +6,3 @@ View more information on the [plugin page](https://www.spigotmc.org/resources/qu
 # Credits
 * https://stackoverflow.com/questions/2149785/get-size-of-folder-or-file/41781646#41781646
 * https://stackoverflow.com/questions/3758606/how-to-convert-byte-size-into-human-readable-format-in-java
-
-Who doesn't copy and paste from Stack Overflow?
