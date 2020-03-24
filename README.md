@@ -1,7 +1,12 @@
 # AnarchyStats
-A Spigot plugin to get total players and world size.
+AnarchyStats is a simple plugin to view total player count and world size! This plugin is focused for anarchy servers.
 
-View more information on the [plugin page](https://www.spigotmc.org/resources/anarchystats.66089/).
+This plugin is tested on Spigot and Paper.
+
+## Usage
+Use command /info to view your server stats. The world size is calculated on server startup. It does not update every time you do the command.
+
+There are no permissions or config.
 
 ![Image](https://raw.githubusercontent.com/hyperdefined/AnarchyStats/master/image.png)
 
