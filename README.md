@@ -10,6 +10,9 @@ There are no permissions or config.
 
 ![Image](https://raw.githubusercontent.com/hyperdefined/AnarchyStats/master/image.png)
 
-# Credits
+## Download
+You can either download the plugin from the [releases](https://github.com/hyperdefined/AnarchyStats/releases) or from [Spigot](https://www.spigotmc.org/resources/anarchystats.66089/).
+
+## Credits
 * https://stackoverflow.com/questions/2149785/get-size-of-folder-or-file/41781646#41781646
 * https://stackoverflow.com/questions/3758606/how-to-convert-byte-size-into-human-readable-format-in-java
