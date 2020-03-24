@@ -1,0 +1,10 @@
+name: AnarchyStats
+version: ${project.version}
+main: hyperdefined.anarchystats.AnarchyStats
+api-version: 1.15
+load: STARTUP
+authors: [hyperdefined]
+commands:
+  info:
+    description: See world size and total players.
+    usage: /info

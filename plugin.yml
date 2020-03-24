@@ -1,8 +1,0 @@
-name: QuickStats
-main: hypertjs.quickstats.QuickStats
-version: 1.0
-api-version: 1.13
-commands:
-    stats:
-        description: Gets total number of players and world size.
-        usage: /stats
