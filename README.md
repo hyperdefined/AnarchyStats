@@ -1,7 +1,7 @@
 # AnarchyStats
 A Spigot plugin to get total players and world size.
 
-View more information on the [plugin page](https://www.spigotmc.org/resources/quickstats.66089/).
+View more information on the [plugin page](https://www.spigotmc.org/resources/anarchystats.66089/).
 
 ![Image](https://raw.githubusercontent.com/hyperdefined/AnarchyStats/master/image.png)
 
