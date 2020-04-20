@@ -1,7 +1,7 @@
 name: AnarchyStats
 version: ${project.version}
-main: hyperdefined.anarchystats.AnarchyStats
-api-version: 1.15
+main: lol.hyper.anarchystats.AnarchyStats
+api-version: "1.15"
 load: STARTUP
 authors: [hyperdefined]
 commands:

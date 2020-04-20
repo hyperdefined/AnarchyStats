@@ -1,4 +1,4 @@
-package hyperdefined.anarchystats;
+package lol.hyper.anarchystats;
 
 import java.io.IOException;
 import java.nio.file.*;
