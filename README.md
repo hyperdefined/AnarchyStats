@@ -1,4 +1,6 @@
-# AnarchyStats (1.1)
+# AnarchyStats (1.2)
+[![Downloads](https://img.shields.io/github/downloads/hyperdefined/AnarchyStats/total?logo=github)](https://github.com/hyperdefined/AnarchyStats/releases)
+
 AnarchyStats is a simple plugin to view total player count and world size! This plugin is focused for anarchy servers.
 
 This plugin is tested on Spigot and Paper.
