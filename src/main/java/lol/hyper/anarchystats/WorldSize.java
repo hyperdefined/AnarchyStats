@@ -1,5 +1,7 @@
 package lol.hyper.anarchystats;
 
+import org.bukkit.Bukkit;
+
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -32,7 +34,7 @@ public class WorldSize {
 
                 @Override
                 public FileVisitResult visitFileFailed(Path file, IOException exc) {
-                    System.out.println("skipped: " + file + " (" + exc + ")");
+                    Bukkit.getLogger().warning("skipped: " + file + " (" + exc + ")");
                     // Skip folders that can't be traversed
                     return FileVisitResult.CONTINUE;
                 }
@@ -40,7 +42,7 @@ public class WorldSize {
                 @Override
                 public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
                     if (exc != null)
-                        System.out.println("had trouble traversing: " + dir + " (" + exc + ")");
+                        Bukkit.getLogger().warning("had trouble traversing: " + dir + " (" + exc + ")");
                     // Ignore errors traversing a folder
                     return FileVisitResult.CONTINUE;
                 }
