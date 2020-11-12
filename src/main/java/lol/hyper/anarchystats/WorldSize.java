@@ -1,26 +1,27 @@
 package lol.hyper.anarchystats;
 
-import org.bukkit.Bukkit;
-
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.text.DecimalFormat;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class WorldSize {
 
-    public static final Path WORLD = Paths.get(Paths.get(".").toAbsolutePath().normalize().toString() + "/world");
-    public static final Path WORLD_NETHER = Paths.get(Paths.get(".").toAbsolutePath().normalize().toString() + "/world_nether");
-    public static final Path WORLD_THE_END = Paths.get(Paths.get(".").toAbsolutePath().normalize().toString() + "/world_the_end");
 
-    public static long getWorldSize(Path world, Path nether, Path end) {
-        long totalSize;
-        totalSize = size(world) + size(nether) + size(end);
-        return totalSize;
-    }
+    public static final Path world = Paths.get(Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + "/world");
+    public static final Path nether = Paths.get(Paths.get(".").toAbsolutePath().normalize().toString() +File.separator + "/world_nether");
+    public static final Path end = Paths.get(Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + "world_the_end");
 
-    // https://stackoverflow.com/questions/2149785/get-size-of-folder-or-file/41781646#41781646
-    public static long size(Path path) {
+    /**
+     * Attempts to calculate the size of a file or directory.
+     *
+     * <p>
+     * Since the operation is non-atomic, the returned value may be inaccurate.
+     * However, this method is quick and does its best.
+     */
+    public static long getWorldSize(Path path) {
 
         final AtomicLong size = new AtomicLong(0);
 
@@ -28,21 +29,24 @@ public class WorldSize {
             Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+
                     size.addAndGet(attrs.size());
                     return FileVisitResult.CONTINUE;
                 }
 
                 @Override
                 public FileVisitResult visitFileFailed(Path file, IOException exc) {
-                    Bukkit.getLogger().warning("skipped: " + file + " (" + exc + ")");
+
+                    System.out.println("skipped: " + file + " (" + exc + ")");
                     // Skip folders that can't be traversed
                     return FileVisitResult.CONTINUE;
                 }
 
                 @Override
                 public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
+
                     if (exc != null)
-                        Bukkit.getLogger().warning("had trouble traversing: " + dir + " (" + exc + ")");
+                        System.out.println("had trouble traversing: " + dir + " (" + exc + ")");
                     // Ignore errors traversing a folder
                     return FileVisitResult.CONTINUE;
                 }
@@ -54,12 +58,10 @@ public class WorldSize {
         return size.get();
     }
 
-    // https://stackoverflow.com/questions/3758606/how-to-convert-byte-size-into-human-readable-format-in-java
-    public static String humanReadableByteCount(long bytes, boolean si) {
-        int unit = si ? 1000 : 1024;
-        if (bytes < unit) return bytes + " B";
-        int exp = (int) (Math.log(bytes) / Math.log(unit));
-        String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "" : "i");
-        return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
+    public static String readableFileSize(long size) {
+        if (size <= 0) return "0";
+        final String[] units = new String[]{"B", "kB", "MB", "GB", "TB"};
+        int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
+        return new DecimalFormat("#,##0.##").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
 }

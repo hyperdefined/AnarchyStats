@@ -1,0 +1,6 @@
+# This is the start date of your world.
+# Format: MM/DD/YYYY. You must put zeros for single digits. Example: 06, 02, 01, etc.
+date: 05/27/2019 # This date is May 27th, 2019.
+
+# Change this to match your server name. Displays on the command.
+server-name: "ServerName"

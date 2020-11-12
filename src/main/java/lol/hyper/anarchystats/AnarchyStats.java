@@ -1,42 +1,59 @@
 package lol.hyper.anarchystats;
 
+import lol.hyper.anarchystats.commands.CommandInfo;
+import lol.hyper.anarchystats.commands.CommandReload;
+import org.bstats.bukkit.Metrics;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.nio.file.Path;
 import java.util.logging.Logger;
 
-public class AnarchyStats extends JavaPlugin {
+public final class AnarchyStats extends JavaPlugin {
 
-    private static AnarchyStats anarchyStats;
+    public static String worldSize;
+    public final File configFile = new File(this.getDataFolder(), "config.yml");
+    public FileConfiguration config;
+    public Logger logger = this.getLogger();
 
-    public String worldSize;
-
-    public static AnarchyStats getInstance() {
-        return anarchyStats;
-    }
+    public CommandInfo commandInfo;
+    public CommandReload commandReload;
 
     @Override
     public void onEnable() {
-        anarchyStats = this;
-        Logger logger = this.getLogger();
+        commandInfo = new CommandInfo(this);
+        commandReload = new CommandReload(this);
+        if (!configFile.exists()) {
+            this.saveResource("config.yml", true);
+            logger.info("Copying default config!");
+        }
+        loadConfig();
+        this.getCommand("info").setExecutor(commandInfo);
+        this.getCommand("anarchystats").setExecutor(commandReload);
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> this.updateWorldSize(WorldSize.world, WorldSize.nether, WorldSize.end));
 
         new Updater(this, 66089).getVersion(version -> {
             if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
-                logger.info("There is not a new update available.");
+                logger.info("You are running the latest version.");
             } else {
-                logger.info("There is a new update available!");
+                logger.info("There is a new version available! Please download at https://www.spigotmc.org/resources/anarchystats.66089/");
             }
         });
-        getWorldSize();
-
-        this.getCommand("info").setExecutor(new CommandStats());
+        Metrics metrics = new Metrics(this, 6877);
     }
 
     @Override
     public void onDisable() {
-
     }
 
-    public void getWorldSize() {
-        worldSize = WorldSize.humanReadableByteCount(WorldSize.getWorldSize(WorldSize.WORLD, WorldSize.WORLD_NETHER, WorldSize.WORLD_THE_END), false);
+    public void updateWorldSize(Path world, Path nether, Path end) {
+        worldSize = WorldSize.readableFileSize(WorldSize.getWorldSize(world) + WorldSize.getWorldSize(nether) + WorldSize.getWorldSize(end));
+    }
+
+    public void loadConfig() {
+        config = YamlConfiguration.loadConfiguration(configFile);
     }
 }

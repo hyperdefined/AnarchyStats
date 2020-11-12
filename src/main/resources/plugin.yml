@@ -1,10 +1,11 @@
 name: AnarchyStats
 version: ${project.version}
 main: lol.hyper.anarchystats.AnarchyStats
-api-version: "1.15"
+api-version: 1.15
 load: STARTUP
-authors: [hyperdefined]
+author: hyperdefined
 commands:
   info:
-    description: See world size and total players.
-    usage: /info
+    description: See world information.
+  anarchystats:
+    description: Main command.
