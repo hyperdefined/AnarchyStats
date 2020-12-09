@@ -4,6 +4,7 @@ import lol.hyper.anarchystats.AnarchyStats;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.TabExecutor;
 
 import java.util.Collections;
@@ -19,8 +20,9 @@ public class CommandReload implements TabExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (args.length == 0) {
+        if (args.length == 0 || sender instanceof ConsoleCommandSender) {
             sender.sendMessage(ChatColor.GREEN + "AnarchyStats version " + anarchyStats.getDescription().getVersion() + ". Created by hyperdefined.");
+            return true;
         } else if (args.length == 1) {
             if (args[0].equalsIgnoreCase("reload")) {
                 if (sender.hasPermission("anarchystats.reload")) {
