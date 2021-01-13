@@ -39,7 +39,7 @@ public final class AnarchyStats extends JavaPlugin {
         if (commandTest != null) {
             logger.warning("We detected that /" + config.getString("info-command-override") + " is already taken by another plugin. There might be some issues with this. To change this, edit the info-command-override setting in the config.");
         }
-        
+
         this.getCommand(config.getString("info-command-override")).setExecutor(commandInfo);
         this.getCommand("anarchystats").setExecutor(commandReload);
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> this.updateWorldSize(WorldSize.world, WorldSize.nether, WorldSize.end));

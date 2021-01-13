@@ -3,11 +3,16 @@ package lol.hyper.anarchystats;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MessageParser {
 
@@ -19,11 +24,20 @@ public class MessageParser {
 
     public List<String> getCommandMessage() {
         String date = anarchyStats.config.getString("date");
+        DateFormat originalFormat = new SimpleDateFormat("M/dd/yyyy", Locale.ENGLISH);
+        DateFormat newFormat = new SimpleDateFormat(anarchyStats.config.getString("date-format"), Locale.ENGLISH);
+        Date originalDate = null;
+        try {
+            originalDate = originalFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String newDate = newFormat.format(originalDate);
         List<String> rawMessages = anarchyStats.config.getStringList("command-message");
         List<String> formattedMessage = new ArrayList<>();
         for (String x : rawMessages) {
             if (x.contains("{{STARTDATE}}")) {
-                x = x.replace("{{STARTDATE}}", date);
+                x = x.replace("{{STARTDATE}}", newDate);
             }
 
             if (x.contains("{{DAYS}}")) {

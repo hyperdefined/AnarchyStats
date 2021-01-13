@@ -10,7 +10,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class WorldSize {
 
-
     public static Path world = null;
     public static Path nether= null;
     public static Path end= null;
