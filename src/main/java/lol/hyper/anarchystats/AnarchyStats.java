@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Logger;
 
 public final class AnarchyStats extends JavaPlugin {
@@ -57,5 +58,8 @@ public final class AnarchyStats extends JavaPlugin {
 
     public void loadConfig() {
         config = YamlConfiguration.loadConfiguration(configFile);
+        WorldSize.world = Paths.get(Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + config.getString("world-files.overworld"));
+        WorldSize.nether = Paths.get(Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + config.getString("world-files.nether"));
+        WorldSize.end = Paths.get(Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + config.getString("world-files.end"));
     }
 }

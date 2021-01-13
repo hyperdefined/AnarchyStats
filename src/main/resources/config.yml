@@ -2,6 +2,12 @@
 # Format: MM/DD/YYYY. You must put zeros for single digits. Example: 06, 02, 01, etc.
 date: 05/27/2019 # This date is May 27th, 2019.
 
+# Some servers have different folder names for the worlds. Please update these to match yours.
+# Leave default if you didn't change the names.
+world-files:
+  overworld: "world"
+  nether: "world_nether"
+  end: "world_the_end"
 
 # This is where you can change what message is on the command.
 # {{STARTDATE}} - Displays the start date for the server. Uses the date above.

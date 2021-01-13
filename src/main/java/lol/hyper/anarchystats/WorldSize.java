@@ -10,9 +10,9 @@ import java.util.concurrent.atomic.AtomicLong;
 public class WorldSize {
 
 
-    public static final Path world = Paths.get(Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + "/world");
-    public static final Path nether = Paths.get(Paths.get(".").toAbsolutePath().normalize().toString() +File.separator + "/world_nether");
-    public static final Path end = Paths.get(Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + "world_the_end");
+    public static Path world = null;
+    public static Path nether= null;
+    public static Path end= null;
 
     /**
      * Attempts to calculate the size of a file or directory.
