@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public final class AnarchyStats extends JavaPlugin {
@@ -20,6 +21,7 @@ public final class AnarchyStats extends JavaPlugin {
     public final File configFile = new File(this.getDataFolder(), "config.yml");
     public FileConfiguration config;
     public final Logger logger = this.getLogger();
+    public final ArrayList<Path> worldPaths = new ArrayList<>();
 
     public CommandInfo commandInfo;
     public CommandReload commandReload;
@@ -42,7 +44,7 @@ public final class AnarchyStats extends JavaPlugin {
 
         this.getCommand(config.getString("info-command-override")).setExecutor(commandInfo);
         this.getCommand("anarchystats").setExecutor(commandReload);
-        Bukkit.getScheduler().runTaskAsynchronously(this, () -> this.updateWorldSize(WorldSize.world, WorldSize.nether, WorldSize.end));
+        Bukkit.getScheduler().runTaskAsynchronously(this, this::updateWorldSize);
 
         new Updater(this, 66089).getVersion(version -> {
             if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
@@ -58,14 +60,22 @@ public final class AnarchyStats extends JavaPlugin {
     public void onDisable() {
     }
 
-    public void updateWorldSize(Path world, Path nether, Path end) {
-        worldSize = WorldSize.readableFileSize(WorldSize.getWorldSize(world) + WorldSize.getWorldSize(nether) + WorldSize.getWorldSize(end));
+    public void updateWorldSize() {
+        worldSize = WorldSize.readableFileSize(WorldSize.getWorldSize(worldPaths));
     }
 
     public void loadConfig() {
         config = YamlConfiguration.loadConfiguration(configFile);
-        WorldSize.world = Paths.get(Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + config.getString("world-files.overworld"));
-        WorldSize.nether = Paths.get(Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + config.getString("world-files.nether"));
-        WorldSize.end = Paths.get(Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + config.getString("world-files.end"));
+        if (worldPaths.size() > 0) {
+            worldPaths.clear();
+        }
+        for (String x : config.getStringList("worlds-to-use")) {
+            Path currentPath = Paths.get(Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + x);
+            if (!currentPath.toFile().exists()) {
+                logger.warning("World file " + x + " does not exist!");
+            } else {
+                worldPaths.add(currentPath);
+            }
+        }
     }
 }

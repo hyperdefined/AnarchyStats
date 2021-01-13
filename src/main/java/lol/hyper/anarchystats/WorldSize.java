@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class WorldSize {
@@ -21,38 +22,40 @@ public class WorldSize {
      *
      * https://stackoverflow.com/a/19877372
      */
-    public static long getWorldSize(Path path) {
+    public static long getWorldSize(ArrayList<Path> paths) {
 
         final AtomicLong size = new AtomicLong(0);
 
-        try {
-            Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
-                @Override
-                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+        for (Path p : paths) {
+            try {
+                Files.walkFileTree(p, new SimpleFileVisitor<Path>() {
+                    @Override
+                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
 
-                    size.addAndGet(attrs.size());
-                    return FileVisitResult.CONTINUE;
-                }
+                        size.addAndGet(attrs.size());
+                        return FileVisitResult.CONTINUE;
+                    }
 
-                @Override
-                public FileVisitResult visitFileFailed(Path file, IOException exc) {
+                    @Override
+                    public FileVisitResult visitFileFailed(Path file, IOException exc) {
 
-                    Bukkit.getLogger().warning("File " + file + " doesn't exist. (" + exc + ")");
-                    // Skip folders that can't be traversed
-                    return FileVisitResult.CONTINUE;
-                }
+                        Bukkit.getLogger().warning("File " + file + " doesn't exist. (" + exc + ")");
+                        // Skip folders that can't be traversed
+                        return FileVisitResult.CONTINUE;
+                    }
 
-                @Override
-                public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
+                    @Override
+                    public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
 
-                    if (exc != null)
-                        Bukkit.getLogger().warning("Had trouble traversing: " + dir + " (" + exc + ")");
-                    // Ignore errors traversing a folder
-                    return FileVisitResult.CONTINUE;
-                }
-            });
-        } catch (IOException e) {
-            throw new AssertionError("walkFileTree will not throw IOException if the FileVisitor does not");
+                        if (exc != null)
+                            Bukkit.getLogger().warning("Had trouble traversing: " + dir + " (" + exc + ")");
+                        // Ignore errors traversing a folder
+                        return FileVisitResult.CONTINUE;
+                    }
+                });
+            } catch (IOException e) {
+                throw new AssertionError("walkFileTree will not throw IOException if the FileVisitor does not");
+            }
         }
 
         return size.get();

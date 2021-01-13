@@ -2,7 +2,6 @@ package lol.hyper.anarchystats.commands;
 
 import lol.hyper.anarchystats.AnarchyStats;
 import lol.hyper.anarchystats.MessageParser;
-import lol.hyper.anarchystats.WorldSize;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,7 +19,7 @@ public class CommandInfo implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        Bukkit.getScheduler().runTaskAsynchronously(anarchyStats, () -> anarchyStats.updateWorldSize(WorldSize.world, WorldSize.nether, WorldSize.end));
+        Bukkit.getScheduler().runTaskAsynchronously(anarchyStats, anarchyStats::updateWorldSize);
         for (String x : messageParser.getCommandMessage()) {
             sender.sendMessage(x);
         }

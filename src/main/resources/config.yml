@@ -1,5 +1,6 @@
 # Some plugins use /info for things. This let's you change the plugins command so they don't override.
 # Default is /info.
+# This requires a whole server restart.
 info-command-override: "info"
 
 # This is the start date of your world.
@@ -11,12 +12,13 @@ date: 05/27/2019 # This date is May 27th, 2019.
 # You can find examples on how to custom this here: https://www.journaldev.com/17899/java-simpledateformat-java-date-format <- There is a chart at the bottom of the page.
 date-format: "M/dd/yyyy"
 
-# Some servers have different folder names for the worlds. Please update these to match yours.
-# Leave default if you didn't change the names.
-world-files:
-  overworld: "world"
-  nether: "world_nether"
-  end: "world_the_end"
+# This let's you set which worlds will be included in the size calculation.
+# By default, it uses the default worlds.
+# You can add more or change the names.
+worlds-to-use:
+  - "world"
+  - "world_nether"
+  - "world_the_end"
 
 # This is where you can change what message is on the command.
 # {{STARTDATE}} - Displays the start date for the server. Uses the date above.
