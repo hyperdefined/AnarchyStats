@@ -4,6 +4,7 @@ import lol.hyper.anarchystats.commands.CommandInfo;
 import lol.hyper.anarchystats.commands.CommandReload;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -34,7 +35,12 @@ public final class AnarchyStats extends JavaPlugin {
             logger.info("Copying default config!");
         }
         loadConfig();
-        this.getCommand("info").setExecutor(commandInfo);
+        Command commandTest = Bukkit.getPluginCommand(config.getString("info-command-override"));
+        if (commandTest != null) {
+            logger.warning("We detected that /" + config.getString("info-command-override") + " is already taken by another plugin. There might be some issues with this. To change this, edit the info-command-override setting in the config.");
+        }
+        
+        this.getCommand(config.getString("info-command-override")).setExecutor(commandInfo);
         this.getCommand("anarchystats").setExecutor(commandReload);
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> this.updateWorldSize(WorldSize.world, WorldSize.nether, WorldSize.end));
 

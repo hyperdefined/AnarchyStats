@@ -1,3 +1,7 @@
+# Some plugins use /info for things. This let's you change the plugins command so they don't override.
+# Default is /info.
+info-command-override: "info"
+
 # This is the start date of your world.
 # Format: MM/DD/YYYY. You must put zeros for single digits. Example: 06, 02, 01, etc.
 date: 05/27/2019 # This date is May 27th, 2019.
