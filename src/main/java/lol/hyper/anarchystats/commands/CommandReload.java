@@ -13,7 +13,7 @@ public class CommandReload implements TabExecutor {
 
     private final AnarchyStats anarchyStats;
 
-    public CommandReload (AnarchyStats anarchyStats) {
+    public CommandReload(AnarchyStats anarchyStats) {
         this.anarchyStats = anarchyStats;
     }
 
