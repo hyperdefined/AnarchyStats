@@ -17,14 +17,16 @@ public final class AnarchyStats extends JavaPlugin {
     public static String worldSize;
     public final File configFile = new File(this.getDataFolder(), "config.yml");
     public FileConfiguration config;
-    public Logger logger = this.getLogger();
+    public final Logger logger = this.getLogger();
 
     public CommandInfo commandInfo;
     public CommandReload commandReload;
+    public MessageParser messageParser;
 
     @Override
     public void onEnable() {
-        commandInfo = new CommandInfo(this);
+        messageParser = new MessageParser(this);
+        commandInfo = new CommandInfo(this, messageParser);
         commandReload = new CommandReload(this);
         if (!configFile.exists()) {
             this.saveResource("config.yml", true);

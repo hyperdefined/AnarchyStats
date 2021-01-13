@@ -2,5 +2,15 @@
 # Format: MM/DD/YYYY. You must put zeros for single digits. Example: 06, 02, 01, etc.
 date: 05/27/2019 # This date is May 27th, 2019.
 
-# Change this to match your server name. Displays on the command.
-server-name: "ServerName"
+
+# This is where you can change what message is on the command.
+# {{STARTDATE}} - Displays the start date for the server. Uses the date above.
+# {{DAYS}} - Displays how many days since the start date for the server.
+# {{WORLDSIZE}} - Displays the world size.
+# {{TOTALJOINS}} - Displays the total unique players that have joined.
+command-message:
+  - "&6--------------------------------------------"
+  - "&3ServerName was created on {{STARTDATE}}. That was {{DAYS}} days ago."
+  - "&3The world is {{WORLDSIZE}}."
+  - "&3A total of {{TOTALJOINS}} players have joined."
+  - "&6--------------------------------------------"
