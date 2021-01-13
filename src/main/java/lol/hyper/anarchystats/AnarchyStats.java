@@ -72,7 +72,7 @@ public final class AnarchyStats extends JavaPlugin {
         for (String x : config.getStringList("worlds-to-use")) {
             Path currentPath = Paths.get(Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + x);
             if (!currentPath.toFile().exists()) {
-                logger.warning("World file " + x + " does not exist!");
+                logger.warning("World folder \"" + x + "\" does not exist! Excluding from size calculation.");
             } else {
                 worldPaths.add(currentPath);
             }
