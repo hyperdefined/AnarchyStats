@@ -5,8 +5,10 @@ import lol.hyper.anarchystats.commands.CommandReload;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -23,26 +25,22 @@ public final class AnarchyStats extends JavaPlugin {
     public final Logger logger = this.getLogger();
     public final ArrayList<Path> worldPaths = new ArrayList<>();
 
-    public CommandInfo commandInfo;
     public CommandReload commandReload;
     public MessageParser messageParser;
 
     @Override
     public void onEnable() {
         messageParser = new MessageParser(this);
-        commandInfo = new CommandInfo(this, messageParser);
         commandReload = new CommandReload(this);
         if (!configFile.exists()) {
             this.saveResource("config.yml", true);
             logger.info("Copying default config!");
         }
         loadConfig();
-        Command commandTest = Bukkit.getPluginCommand(config.getString("info-command-override"));
-        if (commandTest != null) {
-            logger.warning("We detected that /" + config.getString("info-command-override") + " is already taken by another plugin. There might be some issues with this. To change this, edit the info-command-override setting in the config.");
-        }
 
-        this.getCommand(config.getString("info-command-override")).setExecutor(commandInfo);
+        AbstractCommand infoCommand = new CommandInfo(config.getString("info-command-override"), this, messageParser);
+        infoCommand.register();
+
         this.getCommand("anarchystats").setExecutor(commandReload);
         Bukkit.getScheduler().runTaskAsynchronously(this, this::updateWorldSize);
 

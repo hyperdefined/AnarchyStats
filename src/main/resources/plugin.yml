@@ -5,7 +5,5 @@ api-version: 1.15
 load: STARTUP
 author: hyperdefined
 commands:
-  info:
-    description: See world information.
   anarchystats:
     description: Main command.
