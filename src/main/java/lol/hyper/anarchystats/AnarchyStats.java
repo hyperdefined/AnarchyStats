@@ -4,11 +4,8 @@ import lol.hyper.anarchystats.commands.CommandInfo;
 import lol.hyper.anarchystats.commands.CommandReload;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -24,6 +21,7 @@ public final class AnarchyStats extends JavaPlugin {
     public FileConfiguration config;
     public final Logger logger = this.getLogger();
     public final ArrayList<Path> worldPaths = new ArrayList<>();
+    public final int CONFIG_VERSION = 1;
 
     public CommandReload commandReload;
     public MessageParser messageParser;
@@ -54,10 +52,6 @@ public final class AnarchyStats extends JavaPlugin {
         Metrics metrics = new Metrics(this, 6877);
     }
 
-    @Override
-    public void onDisable() {
-    }
-
     public void updateWorldSize() {
         worldSize = WorldSize.readableFileSize(WorldSize.getWorldSize(worldPaths));
     }
@@ -74,6 +68,10 @@ public final class AnarchyStats extends JavaPlugin {
             } else {
                 worldPaths.add(currentPath);
             }
+        }
+
+        if (config.getInt("config-version") != CONFIG_VERSION) {
+            logger.warning("You configuration is out of date! Some features may not work!");
         }
     }
 }

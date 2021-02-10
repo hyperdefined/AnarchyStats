@@ -31,3 +31,10 @@ command-message:
   - "&3The world is {{WORLDSIZE}}."
   - "&3A total of {{TOTALJOINS}} players have joined."
   - "&6--------------------------------------------"
+
+# Require the command to have permissions to use. Setting this value to "true" will require the player to have the permission below to use the command.
+# You can change the permission node to whatever you want.
+use-permission-node: false
+permission-node: "anarchystats.info"
+
+config-version: 1

@@ -11,10 +11,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class WorldSize {
 
-    public static Path world = null;
-    public static Path nether = null;
-    public static Path end = null;
-
     /**
      * Attempts to calculate the size of a file or directory.
      * Since the operation is non-atomic, the returned value may be inaccurate.
