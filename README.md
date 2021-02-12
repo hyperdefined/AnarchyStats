@@ -4,4 +4,4 @@
 AnarchyStats is a simple plugin to show server age, total players, and world size in a nice little command. This plugin is mainly focused towards anarchy servers to display their server’s information.
 
 - [Documentation and more info](https://hyper.lol/minecraft-plugins/anarchystats/).
-- [SpigotMC Page](https://www.spigotmc.org/resources/simplehub.88930/).
+- [SpigotMC Page](https://www.spigotmc.org/resources/anarchystats.66089/).
