@@ -11,12 +11,10 @@ import org.bukkit.command.CommandSender;
 public class CommandInfo extends AbstractCommand {
 
     private final AnarchyStats anarchyStats;
-    private final MessageParser messageParser;
 
-    public CommandInfo(String command, AnarchyStats anarchyStats, MessageParser messageParser) {
+    public CommandInfo(String command, AnarchyStats anarchyStats) {
         super(command);
         this.anarchyStats = anarchyStats;
-        this.messageParser = messageParser;
     }
 
     @Override
@@ -28,7 +26,7 @@ public class CommandInfo extends AbstractCommand {
             }
         }
         Bukkit.getScheduler().runTaskAsynchronously(anarchyStats, anarchyStats::updateWorldSize);
-        for (String x : messageParser.getCommandMessage()) {
+        for (String x : anarchyStats.messageParser.getCommandMessage()) {
             sender.sendMessage(x);
         }
         return true;

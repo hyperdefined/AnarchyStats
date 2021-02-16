@@ -36,7 +36,7 @@ public final class AnarchyStats extends JavaPlugin {
         }
         loadConfig();
 
-        AbstractCommand infoCommand = new CommandInfo(config.getString("info-command-override"), this, messageParser);
+        AbstractCommand infoCommand = new CommandInfo(config.getString("info-command-override"), this);
         infoCommand.register();
 
         this.getCommand("anarchystats").setExecutor(commandReload);
