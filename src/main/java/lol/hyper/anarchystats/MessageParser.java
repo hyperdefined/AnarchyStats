@@ -22,7 +22,7 @@ public class MessageParser {
         this.anarchyStats = anarchyStats;
     }
 
-    public List<String> getCommandMessage() {
+    public List < String > getCommandMessage() {
         String date = anarchyStats.config.getString("date");
         DateFormat originalFormat = new SimpleDateFormat("M/dd/yyyy", Locale.ENGLISH);
         DateFormat newFormat = new SimpleDateFormat(anarchyStats.config.getString("date-format"), Locale.ENGLISH);
@@ -33,9 +33,9 @@ public class MessageParser {
             e.printStackTrace();
         }
         String newDate = newFormat.format(originalDate);
-        List<String> rawMessages = anarchyStats.config.getStringList("command-message");
-        List<String> formattedMessage = new ArrayList<>();
-        for (String x : rawMessages) {
+        List < String > rawMessages = anarchyStats.config.getStringList("command-message");
+        List < String > formattedMessage = new ArrayList < > ();
+        for (String x: rawMessages) {
             if (x.contains("{{STARTDATE}}")) {
                 x = x.replace("{{STARTDATE}}", newDate);
             }

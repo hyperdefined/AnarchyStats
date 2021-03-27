@@ -36,7 +36,7 @@ public class CommandReload implements TabExecutor {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public List < String > onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         return Collections.singletonList("reload");
     }
 }

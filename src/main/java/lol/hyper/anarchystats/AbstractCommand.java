@@ -43,7 +43,7 @@ public abstract class AbstractCommand implements CommandExecutor, TabExecutor {
 
     protected final String command;
     protected final String description;
-    protected final List<String> alias;
+    protected final List < String > alias;
     protected final String usage;
     protected final String permMessage;
 
@@ -65,11 +65,11 @@ public abstract class AbstractCommand implements CommandExecutor, TabExecutor {
         this(command, usage, description, permissionMessage, null);
     }
 
-    public AbstractCommand(String command, String usage, String description, List<String> aliases) {
+    public AbstractCommand(String command, String usage, String description, List < String > aliases) {
         this(command, usage, description, null, aliases);
     }
 
-    public AbstractCommand(String command, String usage, String description, String permissionMessage, List<String> aliases) {
+    public AbstractCommand(String command, String usage, String description, String permissionMessage, List < String > aliases) {
         this.command = command.toLowerCase();
         this.usage = usage;
         this.description = description;
@@ -94,29 +94,41 @@ public abstract class AbstractCommand implements CommandExecutor, TabExecutor {
                 f.setAccessible(true);
                 cmap = (CommandMap) f.get(Bukkit.getServer());
                 return getCommandMap();
-            } catch (Exception e) { e.printStackTrace(); }
-        } else if (cmap != null) { return cmap; }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (cmap != null) {
+            return cmap;
+        }
         return getCommandMap();
     }
 
     private final class ReflectCommand extends Command {
         private AbstractCommand exe = null;
-        protected ReflectCommand(String command) { super(command); }
-        public void setExecutor(AbstractCommand exe) { this.exe = exe; }
+        protected ReflectCommand(String command) {
+            super(command);
+        }
+        public void setExecutor(AbstractCommand exe) {
+            this.exe = exe;
+        }
         @Override public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-            if (exe != null) { return exe.onCommand(sender, this, commandLabel, args); }
+            if (exe != null) {
+                return exe.onCommand(sender, this, commandLabel, args);
+            }
             return false;
         }
 
-        @Override  public List<String> tabComplete(CommandSender sender, String alais, String[] args) {
-            if (exe != null) { return exe.onTabComplete(sender, this, alais, args); }
+        @Override public List < String > tabComplete(CommandSender sender, String alais, String[] args) {
+            if (exe != null) {
+                return exe.onTabComplete(sender, this, alais, args);
+            }
             return null;
         }
     }
 
     public abstract boolean onCommand(CommandSender sender, Command cmd, String label, String[] args);
 
-    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+    public List < String > onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         return null;
     }
 }
