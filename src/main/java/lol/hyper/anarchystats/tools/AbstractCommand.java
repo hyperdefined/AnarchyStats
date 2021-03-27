@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package lol.hyper.anarchystats;
+package lol.hyper.anarchystats.tools;
 
 import java.lang.reflect.Field;
 import java.util.List;

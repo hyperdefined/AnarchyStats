@@ -1,6 +1,6 @@
 package lol.hyper.anarchystats.commands;
 
-import lol.hyper.anarchystats.AbstractCommand;
+import lol.hyper.anarchystats.tools.AbstractCommand;
 import lol.hyper.anarchystats.AnarchyStats;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

@@ -2,6 +2,10 @@ package lol.hyper.anarchystats;
 
 import lol.hyper.anarchystats.commands.CommandInfo;
 import lol.hyper.anarchystats.commands.CommandReload;
+import lol.hyper.anarchystats.tools.AbstractCommand;
+import lol.hyper.anarchystats.tools.MessageParser;
+import lol.hyper.anarchystats.tools.Updater;
+import lol.hyper.anarchystats.tools.WorldSize;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;

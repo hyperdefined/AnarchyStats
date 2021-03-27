@@ -1,4 +1,4 @@
-package lol.hyper.anarchystats;
+package lol.hyper.anarchystats.tools;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
