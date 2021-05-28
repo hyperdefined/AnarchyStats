@@ -20,7 +20,10 @@ package lol.hyper.anarchystats.tools;
 import org.bukkit.Bukkit;
 
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -35,13 +38,13 @@ public class WorldSize {
      * <p>
      * https://stackoverflow.com/a/19877372
      */
-    public static long getWorldSize(ArrayList < Path > paths) {
+    public static long getWorldSize(ArrayList<Path> paths) {
 
         final AtomicLong size = new AtomicLong(0);
 
-        for (Path p: paths) {
+        for (Path p : paths) {
             try {
-                Files.walkFileTree(p, new SimpleFileVisitor < Path > () {
+                Files.walkFileTree(p, new SimpleFileVisitor<Path>() {
                     @Override
                     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
 
@@ -79,14 +82,8 @@ public class WorldSize {
      */
     public static String readableFileSize(long size) {
         if (size <= 0) return "0";
-        final String[] units = new String[] {
-                "B",
-                "kB",
-                "MB",
-                "GB",
-                "TB"
-        };
-        int digitGroups = (int)(Math.log10(size) / Math.log10(1024));
+        final String[] units = new String[] {"B", "kB", "MB", "GB", "TB"};
+        int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
         return new DecimalFormat("#,##0.##").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
 }

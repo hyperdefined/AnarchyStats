@@ -39,11 +39,10 @@ public final class AnarchyStats extends JavaPlugin {
 
     public static String worldSize;
     public final File configFile = new File(this.getDataFolder(), "config.yml");
-    public FileConfiguration config;
     public final Logger logger = this.getLogger();
-    public final ArrayList < Path > worldPaths = new ArrayList < > ();
+    public final ArrayList<Path> worldPaths = new ArrayList<>();
     public final int CONFIG_VERSION = 1;
-
+    public FileConfiguration config;
     public CommandReload commandReload;
     public MessageParser messageParser;
 
@@ -64,11 +63,12 @@ public final class AnarchyStats extends JavaPlugin {
         Bukkit.getScheduler().runTaskAsynchronously(this, this::updateWorldSize);
 
         new Updater(this, 66089).getVersion(version -> {
-        if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
-            logger.info("You are running the latest version.");
-        } else {
-            logger.info("There is a new version available! Please download at https://www.spigotmc.org/resources/anarchystats.66089/");
-        }
+            if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
+                logger.info("You are running the latest version.");
+            } else {
+                logger.info(
+                        "There is a new version available! Please download at https://www.spigotmc.org/resources/anarchystats.66089/");
+            }
         });
         Metrics metrics = new Metrics(this, 6877);
     }
@@ -82,8 +82,9 @@ public final class AnarchyStats extends JavaPlugin {
         if (worldPaths.size() > 0) {
             worldPaths.clear();
         }
-        for (String x: config.getStringList("worlds-to-use")) {
-            Path currentPath = Paths.get(Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + x);
+        for (String x : config.getStringList("worlds-to-use")) {
+            Path currentPath =
+                    Paths.get(Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + x);
             if (!currentPath.toFile().exists()) {
                 logger.warning("World folder \"" + x + "\" does not exist! Excluding from size calculation.");
             } else {

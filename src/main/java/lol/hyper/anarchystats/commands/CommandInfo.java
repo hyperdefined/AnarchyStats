@@ -17,8 +17,8 @@
 
 package lol.hyper.anarchystats.commands;
 
-import lol.hyper.anarchystats.tools.AbstractCommand;
 import lol.hyper.anarchystats.AnarchyStats;
+import lol.hyper.anarchystats.tools.AbstractCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -42,7 +42,7 @@ public class CommandInfo extends AbstractCommand {
             }
         }
         Bukkit.getScheduler().runTaskAsynchronously(anarchyStats, anarchyStats::updateWorldSize);
-        for (String x: anarchyStats.messageParser.getCommandMessage()) {
+        for (String x : anarchyStats.messageParser.getCommandMessage()) {
             sender.sendMessage(x);
         }
         return true;

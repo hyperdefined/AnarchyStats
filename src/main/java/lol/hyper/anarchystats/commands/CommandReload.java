@@ -37,7 +37,8 @@ public class CommandReload implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
-            sender.sendMessage(ChatColor.GREEN + "AnarchyStats version " + anarchyStats.getDescription().getVersion() + ". Created by hyperdefined.");
+            sender.sendMessage(ChatColor.GREEN + "AnarchyStats version "
+                    + anarchyStats.getDescription().getVersion() + ". Created by hyperdefined.");
             return true;
         } else if (args.length == 1) {
             if (args[0].equalsIgnoreCase("reload")) {
@@ -53,7 +54,7 @@ public class CommandReload implements TabExecutor {
     }
 
     @Override
-    public List < String > onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         return Collections.singletonList("reload");
     }
 }
