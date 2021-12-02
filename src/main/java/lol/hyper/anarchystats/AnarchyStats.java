@@ -21,8 +21,9 @@ import lol.hyper.anarchystats.commands.CommandInfo;
 import lol.hyper.anarchystats.commands.CommandReload;
 import lol.hyper.anarchystats.tools.AbstractCommand;
 import lol.hyper.anarchystats.tools.MessageParser;
-import lol.hyper.anarchystats.tools.Updater;
 import lol.hyper.anarchystats.tools.WorldSize;
+import lol.hyper.githubreleaseapi.GitHubRelease;
+import lol.hyper.githubreleaseapi.GitHubReleaseAPI;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -30,6 +31,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -62,15 +64,9 @@ public final class AnarchyStats extends JavaPlugin {
         this.getCommand("anarchystats").setExecutor(commandReload);
         Bukkit.getScheduler().runTaskAsynchronously(this, this::updateWorldSize);
 
-        new Updater(this, 66089).getVersion(version -> {
-            if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
-                logger.info("You are running the latest version.");
-            } else {
-                logger.info(
-                        "There is a new version available! Please download at https://www.spigotmc.org/resources/anarchystats.66089/");
-            }
-        });
-        Metrics metrics = new Metrics(this, 6877);
+        new Metrics(this, 6877);
+
+        Bukkit.getScheduler().runTaskAsynchronously(this, this::checkForUpdates);
     }
 
     public void updateWorldSize() {
@@ -94,6 +90,29 @@ public final class AnarchyStats extends JavaPlugin {
 
         if (config.getInt("config-version") != CONFIG_VERSION) {
             logger.warning("You configuration is out of date! Some features may not work!");
+        }
+    }
+
+    public void checkForUpdates() {
+        GitHubReleaseAPI api;
+        try {
+            api = new GitHubReleaseAPI("AnarchyStats", "hyperdefined");
+        } catch (IOException e) {
+            logger.warning("Unable to check updates!");
+            e.printStackTrace();
+            return;
+        }
+        GitHubRelease current = api.getReleaseByTag(this.getDescription().getVersion());
+        GitHubRelease latest = api.getLatestVersion();
+        if (current == null) {
+            logger.warning("You are running a version that does not exist on GitHub. If you are in a dev environment, you can ignore this. Otherwise, this is a bug!");
+            return;
+        }
+        int buildsBehind = api.getBuildsBehind(current);
+        if (buildsBehind == 0) {
+            logger.info("You are running the latest version.");
+        } else {
+            logger.warning("A new version is available (" + latest.getTagVersion() + ")! You are running version " + current.getTagVersion() + ". You are " + buildsBehind + " version(s) behind.");
         }
     }
 }
