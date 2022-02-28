@@ -26,6 +26,7 @@ package lol.hyper.anarchystats.tools;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -46,22 +47,6 @@ public abstract class AbstractCommand implements CommandExecutor, TabExecutor {
 
     public AbstractCommand(String command) {
         this(command, null, null, null, null);
-    }
-
-    public AbstractCommand(String command, String usage) {
-        this(command, usage, null, null, null);
-    }
-
-    public AbstractCommand(String command, String usage, String description) {
-        this(command, usage, description, null, null);
-    }
-
-    public AbstractCommand(String command, String usage, String description, String permissionMessage) {
-        this(command, usage, description, permissionMessage, null);
-    }
-
-    public AbstractCommand(String command, String usage, String description, List<String> aliases) {
-        this(command, usage, description, null, aliases);
     }
 
     public AbstractCommand(
@@ -93,22 +78,22 @@ public abstract class AbstractCommand implements CommandExecutor, TabExecutor {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if (cmap != null) {
+        } else {
             return cmap;
         }
         return getCommandMap();
     }
 
-    public abstract boolean onCommand(CommandSender sender, Command cmd, String label, String[] args);
+    public abstract boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args);
 
-    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         return null;
     }
 
-    private final class ReflectCommand extends Command {
+    private static final class ReflectCommand extends Command {
         private AbstractCommand exe = null;
 
-        protected ReflectCommand(String command) {
+        private ReflectCommand(String command) {
             super(command);
         }
 
@@ -117,7 +102,7 @@ public abstract class AbstractCommand implements CommandExecutor, TabExecutor {
         }
 
         @Override
-        public boolean execute(CommandSender sender, String commandLabel, String[] args) {
+        public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, String[] args) {
             if (exe != null) {
                 return exe.onCommand(sender, this, commandLabel, args);
             }
@@ -125,7 +110,7 @@ public abstract class AbstractCommand implements CommandExecutor, TabExecutor {
         }
 
         @Override
-        public List<String> tabComplete(CommandSender sender, String alais, String[] args) {
+        public List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alais, String[] args) {
             if (exe != null) {
                 return exe.onTabComplete(sender, this, alais, args);
             }

@@ -13,3 +13,5 @@ permissions:
 commands:
   anarchystats:
     usage: /anarchystats
+libraries:
+  - lol.hyper:github-release-api:1.0.1

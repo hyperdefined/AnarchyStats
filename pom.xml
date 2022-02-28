@@ -111,6 +111,7 @@
             <groupId>lol.hyper</groupId>
             <artifactId>github-release-api</artifactId>
             <version>1.0.1</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
