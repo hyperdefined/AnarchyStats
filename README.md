@@ -20,7 +20,7 @@ AnarchyStats is a simple plugin to show server age, total players, and world siz
 * Change `/info` to something else.
 
 ## Documentation
-Visit the [wiki](https://docs.hyper.lol/anarchystats) for help.
+Visit the [wiki](https://github.com/hyperdefined/AnarchyStats/wiki) for help.
 
 ## License
 This plugin is released under GNU General Public License v3. See [LICENSE](https://github.com/hyperdefined/AnarchyStats/blob/master/LICENSE).
