@@ -18,8 +18,9 @@
 package lol.hyper.anarchystats.tools;
 
 import lol.hyper.anarchystats.AnarchyStats;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -27,7 +28,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -35,45 +35,73 @@ import java.util.Locale;
 public class MessageParser {
 
     private final AnarchyStats anarchyStats;
+    private final MiniMessage miniMessage;
 
     public MessageParser(AnarchyStats anarchyStats) {
         this.anarchyStats = anarchyStats;
+        this.miniMessage = anarchyStats.miniMessage;
     }
 
-    public List<String> getCommandMessage() {
-        String date = anarchyStats.config.getString("date");
+
+    /**
+     * Builds the /info command from the config.
+     * @return A full component with the command.
+     */
+    public Component infoCommand() {
+        String configDate = anarchyStats.config.getString("date");
         DateFormat originalFormat = new SimpleDateFormat("M/dd/yyyy", Locale.ENGLISH);
-        DateFormat newFormat = new SimpleDateFormat(anarchyStats.config.getString("date-format"), Locale.ENGLISH);
+        String configFormat = anarchyStats.config.getString("date-format");
+        DateFormat finalFormat;
         Date originalDate = null;
         try {
-            originalDate = originalFormat.parse(date);
+            originalDate = originalFormat.parse(configDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        String newDate = newFormat.format(originalDate);
-        List<String> rawMessages = anarchyStats.config.getStringList("command-message");
-        List<String> formattedMessage = new ArrayList<>();
-        for (String x : rawMessages) {
-            if (x.contains("{{STARTDATE}}")) {
-                x = x.replace("{{STARTDATE}}", newDate);
-            }
-
-            if (x.contains("{{DAYS}}")) {
-                x = x.replace("{{DAYS}}", Long.toString(getDays()));
-            }
-
-            if (x.contains("{{WORLDSIZE}}")) {
-                x = x.replace("{{WORLDSIZE}}", AnarchyStats.worldSize);
-            }
-
-            if (x.contains("{{TOTALJOINS}}")) {
-                x = x.replace("{{TOTALJOINS}}", Integer.toString(Bukkit.getOfflinePlayers().length));
-            }
-
-            formattedMessage.add(ChatColor.translateAlternateColorCodes('&', x));
+        String finalDate;
+        if (configFormat == null) {
+            anarchyStats.logger.severe("date-format is invalid! Trying to use default formatting for date instead.");
+            finalDate = originalFormat.format(originalDate);
+        } else {
+            finalFormat = new SimpleDateFormat(configFormat, Locale.ENGLISH);
+            finalDate = finalFormat.format(originalDate);
         }
 
-        return formattedMessage;
+        List<String> rawMessages = anarchyStats.config.getStringList("command-message");
+        if (rawMessages.isEmpty()) {
+            return null;
+        }
+
+        // start with an empty component
+        Component infoCommand = Component.empty();
+        for (int i = 0; i < rawMessages.size(); i++) {
+            String line = rawMessages.get(i);
+            if (line.contains("{{STARTDATE}}")) {
+                line = line.replace("{{STARTDATE}}", finalDate);
+            }
+
+            if (line.contains("{{DAYS}}")) {
+                line = line.replace("{{DAYS}}", Long.toString(getDays()));
+            }
+
+            if (line.contains("{{WORLDSIZE}}")) {
+                line = line.replace("{{WORLDSIZE}}", AnarchyStats.worldSize);
+            }
+
+            if (line.contains("{{TOTALJOINS}}")) {
+                line = line.replace("{{TOTALJOINS}}", Integer.toString(Bukkit.getOfflinePlayers().length));
+            }
+
+            // append a new line + the component
+            // don't add a new line if it's the first one
+            // creates a gap
+            if (i == 0) {
+                infoCommand = miniMessage.deserialize(line);
+            } else {
+                infoCommand = infoCommand.append(Component.newline()).append(miniMessage.deserialize(line));
+            }
+        }
+        return infoCommand;
     }
 
     // Calculates the days between today and day 1.

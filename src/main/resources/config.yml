@@ -26,15 +26,15 @@ worlds-to-use:
 # {{WORLDSIZE}} - Displays the world size.
 # {{TOTALJOINS}} - Displays the total unique players that have joined.
 command-message:
-  - "&6--------------------------------------------"
-  - "&3ServerName was created on {{STARTDATE}}. That was {{DAYS}} days ago."
-  - "&3The world is {{WORLDSIZE}}."
-  - "&3A total of {{TOTALJOINS}} players have joined."
-  - "&6--------------------------------------------"
+  - "<gold>--------------------------------------------</gold>"
+  - "<dark_aqua>ServerName was created on {{STARTDATE}}. That was {{DAYS}} days ago.</dark_aqua>"
+  - "<dark_aqua>The world is {{WORLDSIZE}}.</dark_aqua>"
+  - "<dark_aqua>A total of {{TOTALJOINS}} players have joined.</dark_aqua>"
+  - "<gold>--------------------------------------------</gold>"
 
 # Require the command to have permissions to use. Setting this value to "true" will require the player to have the permission below to use the command.
 # You can change the permission node to whatever you want.
 use-permission-node: false
 permission-node: "anarchystats.info"
 
-config-version: 1
+config-version: 2

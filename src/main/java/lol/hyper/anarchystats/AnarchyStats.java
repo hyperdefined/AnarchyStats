@@ -24,6 +24,8 @@ import lol.hyper.anarchystats.tools.MessageParser;
 import lol.hyper.anarchystats.tools.WorldSize;
 import lol.hyper.githubreleaseapi.GitHubRelease;
 import lol.hyper.githubreleaseapi.GitHubReleaseAPI;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -43,13 +45,16 @@ public final class AnarchyStats extends JavaPlugin {
     public final File configFile = new File(this.getDataFolder(), "config.yml");
     public final Logger logger = this.getLogger();
     public final ArrayList<Path> worldPaths = new ArrayList<>();
-    public final int CONFIG_VERSION = 1;
+    public final int CONFIG_VERSION = 2;
+    public final MiniMessage miniMessage = MiniMessage.miniMessage();
+    private BukkitAudiences adventure;
     public FileConfiguration config;
     public CommandReload commandReload;
     public MessageParser messageParser;
 
     @Override
     public void onEnable() {
+        this.adventure = BukkitAudiences.create(this);
         messageParser = new MessageParser(this);
         commandReload = new CommandReload(this);
         if (!configFile.exists()) {
@@ -80,7 +85,7 @@ public final class AnarchyStats extends JavaPlugin {
         }
         for (String x : config.getStringList("worlds-to-use")) {
             Path currentPath =
-                    Paths.get(Paths.get(".").toAbsolutePath().normalize().toString() + File.separator + x);
+                    Paths.get(Paths.get(".").toAbsolutePath().normalize() + File.separator + x);
             if (!currentPath.toFile().exists()) {
                 logger.warning("World folder \"" + x + "\" does not exist! Excluding from size calculation.");
             } else {
@@ -114,5 +119,13 @@ public final class AnarchyStats extends JavaPlugin {
         } else {
             logger.warning("A new version is available (" + latest.getTagVersion() + ")! You are running version " + current.getTagVersion() + ". You are " + buildsBehind + " version(s) behind.");
         }
+    }
+
+    public BukkitAudiences getAdventure() {
+        if (this.adventure == null) {
+            throw new IllegalStateException(
+                    "Tried to access Adventure when the plugin was disabled!");
+        }
+        return this.adventure;
     }
 }
