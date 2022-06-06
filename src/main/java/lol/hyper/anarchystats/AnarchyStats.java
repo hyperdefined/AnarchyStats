@@ -41,7 +41,7 @@ import java.util.logging.Logger;
 
 public final class AnarchyStats extends JavaPlugin {
 
-    public static String worldSize;
+    public String worldSize;
     public final File configFile = new File(this.getDataFolder(), "config.yml");
     public final Logger logger = this.getLogger();
     public final ArrayList<Path> worldPaths = new ArrayList<>();

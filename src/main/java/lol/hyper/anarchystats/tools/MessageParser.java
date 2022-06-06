@@ -86,7 +86,7 @@ public class MessageParser {
             }
 
             if (line.contains("{{WORLDSIZE}}")) {
-                line = line.replace("{{WORLDSIZE}}", AnarchyStats.worldSize);
+                line = line.replace("{{WORLDSIZE}}", anarchyStats.worldSize);
             }
 
             if (line.contains("{{TOTALJOINS}}")) {
