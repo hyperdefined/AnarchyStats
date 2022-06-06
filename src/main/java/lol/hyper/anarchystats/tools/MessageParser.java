@@ -69,6 +69,7 @@ public class MessageParser {
 
         List<String> rawMessages = anarchyStats.config.getStringList("command-message");
         if (rawMessages.isEmpty()) {
+            anarchyStats.logger.warning("'command-message' is empty on the configuration!");
             return null;
         }
 
