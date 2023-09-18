@@ -27,10 +27,10 @@ import lol.hyper.githubreleaseapi.GitHubReleaseAPI;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bstats.bukkit.Metrics;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import space.arim.morepaperlib.MorePaperLib;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,10 +51,12 @@ public final class AnarchyStats extends JavaPlugin {
     public FileConfiguration config;
     public CommandReload commandReload;
     public MessageParser messageParser;
+    public MorePaperLib morePaperLib;
 
     @Override
     public void onEnable() {
         this.adventure = BukkitAudiences.create(this);
+        morePaperLib = new MorePaperLib(this);
         messageParser = new MessageParser(this);
         commandReload = new CommandReload(this);
         if (!configFile.exists()) {
@@ -67,11 +69,11 @@ public final class AnarchyStats extends JavaPlugin {
         infoCommand.register();
 
         this.getCommand("anarchystats").setExecutor(commandReload);
-        Bukkit.getScheduler().runTaskAsynchronously(this, this::updateWorldSize);
+        morePaperLib.scheduling().asyncScheduler().run(this::updateWorldSize);
 
         new Metrics(this, 6877);
 
-        Bukkit.getScheduler().runTaskAsynchronously(this, this::checkForUpdates);
+        morePaperLib.scheduling().asyncScheduler().run(this::checkForUpdates);
     }
 
     public void updateWorldSize() {
@@ -83,12 +85,12 @@ public final class AnarchyStats extends JavaPlugin {
         if (worldPaths.size() > 0) {
             worldPaths.clear();
         }
-        for (String x : config.getStringList("worlds-to-use")) {
-            Path currentPath =
-                    Paths.get(Paths.get(".").toAbsolutePath().normalize() + File.separator + x);
+        for (String worldFolder : config.getStringList("worlds-to-use")) {
+            Path currentPath = Paths.get(Paths.get(".").toAbsolutePath().normalize() + File.separator + worldFolder);
             if (!currentPath.toFile().exists()) {
-                logger.warning("World folder \"" + x + "\" does not exist! Excluding from size calculation.");
+                logger.warning("World folder \"" + worldFolder + "\" does not exist! Excluding from size calculation.");
             } else {
+                logger.info("Adding " + worldFolder);
                 worldPaths.add(currentPath);
             }
         }
@@ -123,8 +125,7 @@ public final class AnarchyStats extends JavaPlugin {
 
     public BukkitAudiences getAdventure() {
         if (this.adventure == null) {
-            throw new IllegalStateException(
-                    "Tried to access Adventure when the plugin was disabled!");
+            throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
         }
         return this.adventure;
     }

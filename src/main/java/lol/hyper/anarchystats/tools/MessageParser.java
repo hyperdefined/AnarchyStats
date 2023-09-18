@@ -56,6 +56,7 @@ public class MessageParser {
         try {
             originalDate = originalFormat.parse(configDate);
         } catch (ParseException e) {
+            anarchyStats.logger.severe("The date in the config is invalid.");
             e.printStackTrace();
         }
         String finalDate;

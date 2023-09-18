@@ -51,7 +51,7 @@ public class CommandInfo extends AbstractCommand {
                 return true;
             }
         }
-        Bukkit.getScheduler().runTaskAsynchronously(anarchyStats, anarchyStats::updateWorldSize);
+        anarchyStats.morePaperLib.scheduling().asyncScheduler().run(anarchyStats::updateWorldSize);
         Component infoCommand = anarchyStats.messageParser.infoCommand();
         if (infoCommand != null) {
             audiences.sender(sender).sendMessage(infoCommand);
