@@ -26,7 +26,7 @@ import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class WorldSize {
@@ -38,7 +38,7 @@ public class WorldSize {
      * <p>
      * https://stackoverflow.com/a/19877372
      */
-    public static long getWorldSize(ArrayList<Path> paths) {
+    public static long getWorldSize(List<Path> paths) {
 
         final AtomicLong size = new AtomicLong(0);
 

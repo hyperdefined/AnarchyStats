@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public final class AnarchyStats extends JavaPlugin {
@@ -44,7 +45,7 @@ public final class AnarchyStats extends JavaPlugin {
     public String worldSize;
     public final File configFile = new File(this.getDataFolder(), "config.yml");
     public final Logger logger = this.getLogger();
-    public final ArrayList<Path> worldPaths = new ArrayList<>();
+    public final List<Path> worldPaths = new ArrayList<>();
     public final int CONFIG_VERSION = 2;
     public final MiniMessage miniMessage = MiniMessage.miniMessage();
     private BukkitAudiences adventure;
