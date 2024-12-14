@@ -4,7 +4,7 @@ main: lol.hyper.anarchystats.AnarchyStats
 api-version: 1.21
 load: STARTUP
 author: hyperdefined
-website: https://www.spigotmc.org/resources/anarchystats.66089/
+website: https://modrinth.com/plugin/anarchystats
 description: Get server age, total players, and world size in a nice little command.
 folia-supported: true
 permissions:
