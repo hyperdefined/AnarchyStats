@@ -18,7 +18,6 @@
 package lol.hyper.anarchystats.commands;
 
 import lol.hyper.anarchystats.AnarchyStats;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
@@ -32,25 +31,23 @@ import java.util.List;
 public class CommandReload implements TabExecutor {
 
     private final AnarchyStats anarchyStats;
-    private final BukkitAudiences audiences;
 
     public CommandReload(AnarchyStats anarchyStats) {
         this.anarchyStats = anarchyStats;
-        this.audiences = anarchyStats.getAdventure();
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (args.length == 0) {
-            audiences.sender(sender).sendMessage(Component.text("AnarchyStats version " + anarchyStats.getDescription().getVersion() + ". Created by hyperdefined.").color(NamedTextColor.GREEN));
+            sender.sendMessage(Component.text("AnarchyStats version " + anarchyStats.getPluginMeta().getVersion() + ". Created by hyperdefined.").color(NamedTextColor.GREEN));
             return true;
         } else if (args.length == 1) {
             if (args[0].equalsIgnoreCase("reload")) {
                 if (sender.hasPermission("anarchystats.reload")) {
                     anarchyStats.loadConfig();
-                    audiences.sender(sender).sendMessage(Component.text("Config reloaded!").color(NamedTextColor.GREEN));
+                    sender.sendMessage(Component.text("Config reloaded!").color(NamedTextColor.GREEN));
                 } else {
-                    audiences.sender(sender).sendMessage(Component.text("You do not have permission for this command.").color(NamedTextColor.RED));
+                    sender.sendMessage(Component.text("You do not have permission for this command.").color(NamedTextColor.RED));
                 }
             }
         }
