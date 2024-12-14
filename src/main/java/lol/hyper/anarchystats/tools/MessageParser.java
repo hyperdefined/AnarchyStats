@@ -35,13 +35,10 @@ import java.util.Locale;
 public class MessageParser {
 
     private final AnarchyStats anarchyStats;
-    private final MiniMessage miniMessage;
 
     public MessageParser(AnarchyStats anarchyStats) {
         this.anarchyStats = anarchyStats;
-        this.miniMessage = anarchyStats.miniMessage;
     }
-
 
     /**
      * Builds the /info command from the config.
@@ -98,9 +95,9 @@ public class MessageParser {
             // don't add a new line if it's the first one
             // creates a gap
             if (i == 0) {
-                infoCommand = miniMessage.deserialize(line);
+                infoCommand = Component.text(line);
             } else {
-                infoCommand = infoCommand.append(Component.newline()).append(miniMessage.deserialize(line));
+                infoCommand = infoCommand.append(Component.newline()).append(Component.text(line));
             }
         }
         return infoCommand;

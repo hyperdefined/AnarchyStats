@@ -24,13 +24,11 @@ import lol.hyper.anarchystats.tools.MessageParser;
 import lol.hyper.anarchystats.tools.WorldSize;
 import lol.hyper.githubreleaseapi.GitHubRelease;
 import lol.hyper.githubreleaseapi.GitHubReleaseAPI;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import space.arim.morepaperlib.MorePaperLib;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,17 +45,12 @@ public final class AnarchyStats extends JavaPlugin {
     public final Logger logger = this.getLogger();
     public final List<Path> worldPaths = new ArrayList<>();
     public final int CONFIG_VERSION = 2;
-    public final MiniMessage miniMessage = MiniMessage.miniMessage();
-    private BukkitAudiences adventure;
     public FileConfiguration config;
     public CommandReload commandReload;
     public MessageParser messageParser;
-    public MorePaperLib morePaperLib;
 
     @Override
     public void onEnable() {
-        this.adventure = BukkitAudiences.create(this);
-        morePaperLib = new MorePaperLib(this);
         messageParser = new MessageParser(this);
         commandReload = new CommandReload(this);
         if (!configFile.exists()) {
@@ -70,11 +63,11 @@ public final class AnarchyStats extends JavaPlugin {
         infoCommand.register();
 
         this.getCommand("anarchystats").setExecutor(commandReload);
-        morePaperLib.scheduling().asyncScheduler().run(this::updateWorldSize);
+        Bukkit.getAsyncScheduler().runNow(this, scheduledTask -> updateWorldSize());
 
         new Metrics(this, 6877);
 
-        morePaperLib.scheduling().asyncScheduler().run(this::checkForUpdates);
+        Bukkit.getAsyncScheduler().runNow(this, scheduledTask -> checkForUpdates());
     }
 
     public void updateWorldSize() {
@@ -83,7 +76,7 @@ public final class AnarchyStats extends JavaPlugin {
 
     public void loadConfig() {
         config = YamlConfiguration.loadConfiguration(configFile);
-        if (worldPaths.size() > 0) {
+        if (!worldPaths.isEmpty()) {
             worldPaths.clear();
         }
         for (String worldFolder : config.getStringList("worlds-to-use")) {
@@ -110,7 +103,7 @@ public final class AnarchyStats extends JavaPlugin {
             e.printStackTrace();
             return;
         }
-        GitHubRelease current = api.getReleaseByTag(this.getDescription().getVersion());
+        GitHubRelease current = api.getReleaseByTag(this.getPluginMeta().getVersion());
         GitHubRelease latest = api.getLatestVersion();
         if (current == null) {
             logger.warning("You are running a version that does not exist on GitHub. If you are in a dev environment, you can ignore this. Otherwise, this is a bug!");
@@ -122,12 +115,5 @@ public final class AnarchyStats extends JavaPlugin {
         } else {
             logger.warning("A new version is available (" + latest.getTagVersion() + ")! You are running version " + current.getTagVersion() + ". You are " + buildsBehind + " version(s) behind.");
         }
-    }
-
-    public BukkitAudiences getAdventure() {
-        if (this.adventure == null) {
-            throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
-        }
-        return this.adventure;
     }
 }

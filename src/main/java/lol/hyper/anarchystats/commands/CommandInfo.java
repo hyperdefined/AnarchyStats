@@ -19,9 +19,9 @@ package lol.hyper.anarchystats.commands;
 
 import lol.hyper.anarchystats.AnarchyStats;
 import lol.hyper.anarchystats.tools.AbstractCommand;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -29,12 +29,10 @@ import org.jetbrains.annotations.NotNull;
 public class CommandInfo extends AbstractCommand {
 
     private final AnarchyStats anarchyStats;
-    private final BukkitAudiences audiences;
 
     public CommandInfo(String command, AnarchyStats anarchyStats) {
         super(command);
         this.anarchyStats = anarchyStats;
-        this.audiences = anarchyStats.getAdventure();
     }
 
     @Override
@@ -42,18 +40,18 @@ public class CommandInfo extends AbstractCommand {
         if (anarchyStats.config.getBoolean("use-permission-node")) {
             String permission = anarchyStats.config.getString("permission-node");
             if (permission == null) {
-                audiences.sender(sender).sendMessage(Component.text("Permission node is not set for this command! Please see 'permission-node' under AnarchyStats' config!").color(NamedTextColor.RED));
+                sender.sendMessage(Component.text("Permission node is not set for this command! Please see 'permission-node' under AnarchyStats' config!").color(NamedTextColor.RED));
                 return true;
             }
             if (!sender.hasPermission(permission)) {
-                audiences.sender(sender).sendMessage(Component.text("You do not have permission for this command.").color(NamedTextColor.RED));
+                sender.sendMessage(Component.text("You do not have permission for this command.").color(NamedTextColor.RED));
                 return true;
             }
         }
-        anarchyStats.morePaperLib.scheduling().asyncScheduler().run(anarchyStats::updateWorldSize);
+        Bukkit.getAsyncScheduler().runNow(anarchyStats, scheduledTask -> anarchyStats.updateWorldSize());
         Component infoCommand = anarchyStats.messageParser.infoCommand();
         if (infoCommand != null) {
-            audiences.sender(sender).sendMessage(infoCommand);
+            sender.sendMessage(infoCommand);
         }
         return true;
     }

@@ -29,7 +29,7 @@
     <name>AnarchyStats</name>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -68,16 +68,8 @@
                             <shadedPattern>lol.hyper.anarchystats.bstats</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>net.kyori</pattern>
-                            <shadedPattern>lol.hyper.anarchystats.adventure</shadedPattern>
-                        </relocation>
-                        <relocation>
                             <pattern>lol.hyper.githubreleaseapi</pattern>
                             <shadedPattern>lol.hyper.anarchystats.updater</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>space.arim.morepaperlib</pattern>
-                            <shadedPattern>lol.hyper.anarchystats.morepaperlib</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -101,20 +93,16 @@
 
     <repositories>
         <repository>
-            <id>spigotmc-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
-            <id>arim-mvn-lgpl3</id>
-            <url>https://mvn-repo.arim.space/lesser-gpl3/</url>
+            <id>papermc</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
     </repositories>
 
     <dependencies>
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.20.1-R0.1-SNAPSHOT</version>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.21.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -127,24 +115,6 @@
             <groupId>lol.hyper</groupId>
             <artifactId>github-release-api</artifactId>
             <version>1.0.5</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>adventure-text-minimessage</artifactId>
-            <version>4.17.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>adventure-platform-bukkit</artifactId>
-            <version>4.3.4</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>space.arim.morepaperlib</groupId>
-            <artifactId>morepaperlib</artifactId>
-            <version>0.4.4</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
