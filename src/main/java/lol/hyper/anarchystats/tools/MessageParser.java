@@ -95,9 +95,9 @@ public class MessageParser {
             // don't add a new line if it's the first one
             // creates a gap
             if (i == 0) {
-                infoCommand = Component.text(line);
+                infoCommand = MiniMessage.miniMessage().deserialize(line);
             } else {
-                infoCommand = infoCommand.append(Component.newline()).append(Component.text(line));
+                infoCommand = infoCommand.append(Component.newline()).append(MiniMessage.miniMessage().deserialize(line));
             }
         }
         return infoCommand;
