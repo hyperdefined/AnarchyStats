@@ -4,7 +4,7 @@ main: lol.hyper.anarchystats.AnarchyStats
 api-version: 1.21
 load: STARTUP
 author: hyperdefined
-website: https://modrinth.com/plugin/anarchystats
+website: https://github.com/hyperdefined/AnarchyStats
 description: Get server age, total players, and world size in a nice little command.
 folia-supported: true
 permissions:

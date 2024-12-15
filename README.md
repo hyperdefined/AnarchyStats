@@ -5,6 +5,7 @@
 	<img src="https://img.shields.io/github/v/release/hyperdefined/AnarchyStats" alt="GitHub release (latest by date)">
 	<a href="https://github.com/hyperdefined/AnarchyStats/releases"><img src="https://img.shields.io/github/downloads/hyperdefined/AnarchyStats/total?logo=github" alt="Downloads"></a>
 	<a href="https://ko-fi.com/hyperdefined"><img src="https://img.shields.io/badge/Donate-Ko--fi-red" alt="Donate via Ko-fi"></a>
+	<img alt="Discord" src="https://img.shields.io/discord/1267600843356639413?style=flat&logo=discord&label=Discord">
 	<a href="https://www.gnu.org/licenses/gpl-3.0"><img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License: GPL v3"></a>
 </p>
 
