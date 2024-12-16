@@ -29,10 +29,11 @@ import org.bukkit.command.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.List;
 
 /**
- * For a How-To on how to use AbstractCommand see this post @ http://forums.bukkit.org/threads/195990/
+ * For a How-To on how to use AbstractCommand see this post @ https://forums.bukkit.org/threads/195990/
  *
  * @author Goblom
  */
@@ -45,11 +46,11 @@ public abstract class AbstractCommand implements CommandExecutor, TabExecutor {
     protected final String usage;
     protected final String permMessage;
 
-    public AbstractCommand(String command) {
+    protected AbstractCommand(String command) {
         this(command, null, null, null, null);
     }
 
-    public AbstractCommand(
+    protected AbstractCommand(
             String command, String usage, String description, String permissionMessage, List<String> aliases) {
         this.command = command.toLowerCase();
         this.usage = usage;
@@ -86,8 +87,8 @@ public abstract class AbstractCommand implements CommandExecutor, TabExecutor {
 
     public abstract boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args);
 
-    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-        return null;
+    public @NotNull List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
+        return Collections.emptyList();
     }
 
     private static final class ReflectCommand extends Command {
@@ -110,11 +111,11 @@ public abstract class AbstractCommand implements CommandExecutor, TabExecutor {
         }
 
         @Override
-        public List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alais, String[] args) {
+        public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alais, String[] args) {
             if (exe != null) {
                 return exe.onTabComplete(sender, this, alais, args);
             }
-            return null;
+            return Collections.emptyList();
         }
     }
 }
