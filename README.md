@@ -6,7 +6,7 @@
 	<a href="https://papermc.io"><img alt="paper" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact/supported/paper_vector.svg"></a>
 	<a href="https://github.com/hyperdefined/AnarchyStats/wiki"><img alt="ghpages" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact/documentation/ghpages_vector.svg"></a>
 	<a href="https://discord.gg/rJuQXVcJz8"><img alt="discord-singular" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact/social/discord-singular_vector.svg"></a>
-	<a href="https://ko-fi.com/hyperdefined"><img alt="kofi-singular" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact/donate/kofi-singular_vector.svg"></a>
+	<a href="https://buymeacoffee.com/hyperdefined"><img alt="generic-singular" height="40" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/compact/donate/generic-singular_vector.svg"></a>
 </p>
 
 AnarchyStats is a Paper plugin to show server age, total players, and world size in a nice little command. This plugin is mainly focused towards anarchy servers to display their server’s information.
