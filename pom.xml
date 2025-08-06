@@ -64,12 +64,8 @@
                 <configuration>
                     <relocations>
                         <relocation>
-                            <pattern>org.bstats</pattern>
-                            <shadedPattern>lol.hyper.anarchystats.bstats</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>lol.hyper.githubreleaseapi</pattern>
-                            <shadedPattern>lol.hyper.anarchystats.updater</shadedPattern>
+                            <pattern>lol.hyper.hyperlib</pattern>
+                            <shadedPattern>lol.hyper.anarchystats.hyperlib</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
