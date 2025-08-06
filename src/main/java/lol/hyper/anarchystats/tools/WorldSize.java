@@ -17,7 +17,8 @@
 
 package lol.hyper.anarchystats.tools;
 
-import org.bukkit.Bukkit;
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
@@ -38,34 +39,34 @@ public class WorldSize {
      * <p>
      * https://stackoverflow.com/a/19877372
      */
-    public static long getWorldSize(List<Path> paths) {
+    public static long getWorldSize(List<Path> paths, ComponentLogger logger) {
 
         final AtomicLong size = new AtomicLong(0);
 
         for (Path p : paths) {
             try {
-                Files.walkFileTree(p, new SimpleFileVisitor<Path>() {
+                Files.walkFileTree(p, new SimpleFileVisitor<>() {
                     @Override
-                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+                    public @NotNull FileVisitResult visitFile(Path file, @NotNull BasicFileAttributes attributes) {
 
-                        size.addAndGet(attrs.size());
+                        size.addAndGet(attributes.size());
                         return FileVisitResult.CONTINUE;
                     }
 
                     @Override
-                    public FileVisitResult visitFileFailed(Path file, IOException exc) {
+                    public @NotNull FileVisitResult visitFileFailed(Path file, @NotNull IOException exception) {
 
-                        Bukkit.getLogger().warning("File " + file + " doesn't exist. (" + exc + ")");
+                        logger.warn("File {} doesn't exist. ({})", file, exception.toString());
                         // Skip folders that can't be traversed
                         return FileVisitResult.CONTINUE;
                     }
 
                     @Override
-                    public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
+                    public @NotNull FileVisitResult postVisitDirectory(Path dir, IOException exception) {
 
-                        if (exc != null)
-                            Bukkit.getLogger().warning("Had trouble traversing: " + dir + " (" + exc + ")");
-                        // Ignore errors traversing a folder
+                        if (exception != null) {
+                            logger.warn("Had trouble traversing: {} ({})", dir, exception.toString());
+                        }
                         return FileVisitResult.CONTINUE;
                     }
                 });
@@ -82,7 +83,7 @@ public class WorldSize {
      */
     public static String readableFileSize(long size) {
         if (size <= 0) return "0";
-        final String[] units = new String[] {"B", "kB", "MB", "GB", "TB"};
+        final String[] units = new String[]{"B", "kB", "MB", "GB", "TB"};
         int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
         return new DecimalFormat("#,##0.##").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }

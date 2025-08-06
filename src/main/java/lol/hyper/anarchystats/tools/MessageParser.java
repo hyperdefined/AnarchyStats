@@ -19,7 +19,6 @@ package lol.hyper.anarchystats.tools;
 
 import lol.hyper.anarchystats.AnarchyStats;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 
 import java.text.DateFormat;
@@ -42,6 +41,7 @@ public class MessageParser {
 
     /**
      * Builds the /info command from the config.
+     *
      * @return A full component with the command.
      */
     public Component infoCommand() {
@@ -53,12 +53,12 @@ public class MessageParser {
         try {
             originalDate = originalFormat.parse(configDate);
         } catch (ParseException e) {
-            anarchyStats.logger.severe("The date in the config is invalid.");
+            anarchyStats.logger.warn("The date in the config is invalid.");
             e.printStackTrace();
         }
         String finalDate;
         if (configFormat == null) {
-            anarchyStats.logger.severe("date-format is invalid! Trying to use default formatting for date instead.");
+            anarchyStats.logger.warn("date-format is invalid! Trying to use default formatting for date instead.");
             finalDate = originalFormat.format(originalDate);
         } else {
             finalFormat = new SimpleDateFormat(configFormat, Locale.ENGLISH);
@@ -67,40 +67,22 @@ public class MessageParser {
 
         List<String> rawMessages = anarchyStats.config.getStringList("command-message");
         if (rawMessages.isEmpty()) {
-            anarchyStats.logger.warning("'command-message' is empty on the configuration!");
+            anarchyStats.logger.warn("'command-message' is empty on the configuration!");
             return null;
         }
 
-        // start with an empty component
-        Component infoCommand = Component.empty();
         for (int i = 0; i < rawMessages.size(); i++) {
             String line = rawMessages.get(i);
-            if (line.contains("{{STARTDATE}}")) {
-                line = line.replace("{{STARTDATE}}", finalDate);
-            }
 
-            if (line.contains("{{DAYS}}")) {
-                line = line.replace("{{DAYS}}", Long.toString(getDays()));
-            }
+            line = line.replace("{{STARTDATE}}", finalDate);
+            line = line.replace("{{DAYS}}", Long.toString(getDays()));
+            line = line.replace("{{WORLDSIZE}}", anarchyStats.worldSize);
+            line = line.replace("{{TOTALJOINS}}", Integer.toString(Bukkit.getOfflinePlayers().length));
 
-            if (line.contains("{{WORLDSIZE}}")) {
-                line = line.replace("{{WORLDSIZE}}", anarchyStats.worldSize);
-            }
-
-            if (line.contains("{{TOTALJOINS}}")) {
-                line = line.replace("{{TOTALJOINS}}", Integer.toString(Bukkit.getOfflinePlayers().length));
-            }
-
-            // append a new line + the component
-            // don't add a new line if it's the first one
-            // creates a gap
-            if (i == 0) {
-                infoCommand = MiniMessage.miniMessage().deserialize(line);
-            } else {
-                infoCommand = infoCommand.append(Component.newline()).append(MiniMessage.miniMessage().deserialize(line));
-            }
+            rawMessages.set(i, line);
         }
-        return infoCommand;
+
+        return anarchyStats.textUtils.formatMultiLine(rawMessages);
     }
 
     // Calculates the days between today and day 1.
